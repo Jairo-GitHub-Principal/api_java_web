@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exibição de Dados da API</title>
+</head>
+<body>
+    <h1>Dados da API</h1>
+    <div id="data-container"></div>
+
+    <script>
+        // Função para fazer a requisição AJAX
+        function fetchData() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/api/data", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    displayData(data);
+                }
+            };
+            xhr.send();
+        }
+
+        // Função para exibir os dados na página
+        function displayData(data) {
+            var dataContainer = document.getElementById("data-container");
+            dataContainer.innerHTML = JSON.stringify(data, null, 2);
+        }
+
+        // Chama a função fetchData() quando a página carrega
+        window.onload = function () {
+            fetchData();
+        };
+    </script>
+</body>
+</html>
