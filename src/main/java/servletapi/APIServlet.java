@@ -28,6 +28,7 @@ public class APIServlet extends HttpServlet implements Servlet {
 
 	/**
 	 * 
+        url do servlet: servletapi.APIServlet.doGet(HttpServletRequest, HttpServletResponse)
 	 * http://makeup-api.herokuapp.com/api/v1/products.json
 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,7 +36,7 @@ public class APIServlet extends HttpServlet implements Servlet {
 		
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Aqui você irá implementar a lógica para obter os dados da API e enviar como resposta
-        String apiUrl = "http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline"; // URL da sua API
+        String apiUrl = "http://makeup-api.herokuapp.com/api/v1/products.json"; // URL da sua API
         
         String responseData = APIClient.fetchDataFromAPI(apiUrl); // Utilize a classe APIClient para buscar os dados
        
@@ -46,14 +47,12 @@ public class APIServlet extends HttpServlet implements Servlet {
         
         response.setContentType("application/json");
         response.getWriter().write(responseData);
+        
     }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+	
 
 }

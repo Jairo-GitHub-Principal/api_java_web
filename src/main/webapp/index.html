@@ -7,32 +7,81 @@
 </head>
 <body>
     <h1>Dados da API</h1>
+    
+    <h3 class="meu-nome"></h3>
     <div id="data-container"></div>
+    
+     
+     <h1>apiData2</h1> <br>
+     <div id="apiData2"></div>
+     
+     <!--************************************************************************************************************-->
+     
+      <h1>apiData</h1><br>
+     <div id="apiData"></div>
+     
+     <img alt="" src="">
+     
+     
 
     <script>
-        // Função para fazer a requisição AJAX
-        function fetchData() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/api/data", true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var data = JSON.parse(xhr.responseText);
-                    displayData(data);
-                }
-            };
-            xhr.send();
+    
+    	// Forma 1 de fazer a requisição dos dados para o servlet
+    	
+    	
+    	
+	
+
+        // Função para fazer uma requisição GET para o servlet e exibir os dados na página
+        function fetchDataFromServlet() { // criando a função pra requisitar os dados 
+            fetch('APIServlet') // entre os () esta o nome do servlet a quem sera feito uma requisição de dados
+                .then(response => response.json()) // esse metodo é usado para lidar com a resposta da requisição HTTP. Neste caso, estamos convertendo a resposta para JSON usando o método json().
+                .then(data => { //Outro método then() é usado aqui para lidar com os dados após serem convertidos para JSON. 
+                    document.getElementById('apiData').innerText = JSON.stringify(data, null, 2); // Estamos atualizando o conteúdo do elemento HTML com o id "apiData" com os dados recebidos da API
+                    												//Usamos JSON.stringify() para converter os dados JSON de volta para uma string formatada e definimos uma intenção de recuo de 2 espaços para uma melhor legibilidade.
+                })
+                .catch(error => console.error('Erro ao buscar dados:', error));
+            
+            
+            // o codigo abaixo faz uma listagem mais  organizada dos dados, listando apenas dados especifico 
+            
+            fetch('APIServlet')
+            .then(response => response.json())
+            .then(data => {
+                // Processar os dados recebidos
+            	  const apiDataDiv = document.getElementById('apiData2');
+                  data.forEach(item => {
+                     
+                      
+                      const imgElement = document.createElement('img'); // crio uma tag img
+                      imgElement.src = item.image_link; // atribuo o valor de item.image_link, para o imgElement.src, que é o atribulto src="" da tag img criada acima
+                      
+                      const itemDiv = document.createElement('div');
+                      itemDiv.textContent = `Nome: ${item.name}, Preço: ${item.price}, ID: ${item.id}`; // lista o nome e o preço
+                      
+                      apiDataDiv.appendChild(imgElement); // aqui estamos adicionando o imgElement com o valor que foi atribuido para apiDataDiv, que é a nossa div com id  apiData2, que selecionamos la em cima
+                      apiDataDiv.appendChild(itemDiv);
+                  });
+            })
+            .catch(error => console.error('Erro ao buscar dados:', error));
+            
+            
         }
 
-        // Função para exibir os dados na página
-        function displayData(data) {
-            var dataContainer = document.getElementById("data-container");
-            dataContainer.innerHTML = JSON.stringify(data, null, 2);
-        }
-
-        // Chama a função fetchData() quando a página carrega
-        window.onload = function () {
-            fetchData();
-        };
+        // Chama a função ao carregar a página
+        fetchDataFromServlet(); //  chamando a função para exibir os dados
+   
+    	
+    	
+        
+       
+        
+        // testa se o js esta funcionando
+        var element = document.querySelector(".meu-nome");
+        var text = document.createTextNode("Testando a funcionalidade do javascript");
+        element.appendChild(text);
+        
+       
     </script>
 </body>
 </html>
